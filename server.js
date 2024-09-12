@@ -2,18 +2,31 @@ import express from 'express';
 import path from 'path';
 import url from 'url';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
-// Your function logic here
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8080;
-const baseURL = 'api/v1';
+
+// reading json using fs
+const posts = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'posts', 'posts.json'), 'utf-8')
+); // readFileSync returns a string that needs to be parse into an object
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+//                           SERVER                              //
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+
 const app = express();
 
-app.get(`${baseURL}/posts`, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get(`/`, (req, res) => {
+  res.send('Welcome!');
+});
+
+app.get(`/api/v1/posts`, (req, res) => {
+  res.json(posts); // parses the object into json
 });
 
 app.listen(PORT, () => {
