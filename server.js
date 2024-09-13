@@ -14,16 +14,23 @@ const posts = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'posts', 'posts.json'), 'utf-8')
 ); // readFileSync returns a string that needs to be parse into an object
 
+const home = fs.readFileSync(
+  path.join(__dirname, 'public', 'home.html'),
+  'utf-8'
+);
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
 //                           SERVER                              //
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
 
 const app = express();
 
+//
 app.get(`/`, (req, res) => {
-  res.send('Welcome!');
+  res.send(home);
 });
 
+// get all posts
 app.get(`/api/v1/posts`, (req, res) => {
   res.json(posts); // parses the object into json
 });
