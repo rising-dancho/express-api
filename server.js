@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import url from 'url';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
