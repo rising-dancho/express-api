@@ -25,7 +25,7 @@ const home = fs.readFileSync(
 
 const app = express();
 
-//
+// welcome page
 app.get(`/`, (req, res) => {
   res.send(home);
 });
@@ -33,6 +33,13 @@ app.get(`/`, (req, res) => {
 // get all posts
 app.get(`/api/v1/posts`, (req, res) => {
   res.json(posts); // parses the object into json
+});
+
+// get a single post
+app.get(`/api/v1/posts/:id`, (req, res) => {
+  // console.log(req.params);
+  const id = parseInt(req.params.id);
+  res.json(posts.filter((post) => post.id === id)); // show the post with the id that matches the id provided in params
 });
 
 app.listen(PORT, () => {
