@@ -36,9 +36,9 @@ app.get(`/api/v1/posts`, (req, res) => {
   const limit = parseInt(req.query.limit);
 
   if (!isNaN(limit) && limit > 0) {
-    res.json(posts.slice(0, limit));
+    res.status(200).json(posts.slice(0, limit));
   } else {
-    res.json(posts); // parses the object into json
+    res.status(200).json(posts); // parses the object into json
   }
 });
 
@@ -46,7 +46,14 @@ app.get(`/api/v1/posts`, (req, res) => {
 app.get(`/api/v1/posts/:id`, (req, res) => {
   // console.log(req.params);
   const id = parseInt(req.params.id);
-  res.json(posts.filter((post) => post.id === id)); // show the post with the id that matches the id provided in params
+  // res.status(200).json(posts.filter((post) => post.id === id)); // show the post with the id that matches the id provided in params
+  const post = posts.find((post) => post.id === id);
+
+  if (!post) {
+    res.status(404).json({ msg: `A post with the id of ${id} was not found` });
+  } else {
+    res.status(200).json(post);
+  }
 });
 
 app.listen(PORT, () => {
