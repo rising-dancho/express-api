@@ -30,12 +30,19 @@ app.get(`/`, (req, res) => {
   res.send(home);
 });
 
-// get all posts
+// method: get all posts
 app.get(`/api/v1/posts`, (req, res) => {
-  res.json(posts); // parses the object into json
+  // console.log(req.query); // for getting the query parameter. eg, /api/v1/posts?limit=2&sort=desc
+  const limit = parseInt(req.query.limit);
+
+  if (!isNaN(limit) && limit > 0) {
+    res.json(posts.slice(0, limit));
+  } else {
+    res.json(posts); // parses the object into json
+  }
 });
 
-// get a single post
+// method: get a single post
 app.get(`/api/v1/posts/:id`, (req, res) => {
   // console.log(req.params);
   const id = parseInt(req.params.id);
@@ -47,3 +54,4 @@ app.listen(PORT, () => {
 });
 
 // deploying on vercel, and what needs to be written inside vercel.json: https://chatgpt.com/share/5c65c21a-27be-420a-955d-66babc660f58
+// what is SQL Injection on the query parameter? how to prevent it? https://chatgpt.com/share/66e4bb91-7344-8000-8c0d-3f17bf1ee739
