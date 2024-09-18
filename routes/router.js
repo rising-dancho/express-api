@@ -1,21 +1,5 @@
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-
-// Get the directory name of the current module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// reading json using fs
-const posts = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'posts', 'posts.json'), 'utf-8')
-); // readFileSync returns a string that needs to be parse into an object
-
-const home = fs.readFileSync(
-  path.join(__dirname, 'public', 'home.html'),
-  'utf-8'
-);
+import { posts } from '../server';
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
 //                           ROUTES                              //
@@ -23,13 +7,8 @@ const home = fs.readFileSync(
 
 const router = express.Router();
 
-// welcome page
-router.get(`/`, (req, res) => {
-  res.send(home);
-});
-
 // method: get all posts
-router.get(`/api/v1/posts`, (req, res) => {
+router.get(`/`, (req, res) => {
   // console.log(req.query); // for getting the query parameter. eg, /api/v1/posts?limit=2&sort=desc
   const limit = parseInt(req.query.limit);
 
@@ -41,7 +20,7 @@ router.get(`/api/v1/posts`, (req, res) => {
 });
 
 // method: get a single post
-router.get(`/api/v1/posts/:id`, (req, res) => {
+router.get(`/:id`, (req, res) => {
   // console.log(req.params);
   const id = parseInt(req.params.id);
   // res.status(200).json(posts.filter((post) => post.id === id)); // show the post with the id that matches the id provided in params
