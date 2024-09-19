@@ -27,6 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Use your router for the posts API
 app.use('/api/v1/posts', router);
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+//                           ROOT                                //
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+
 // Serve home.html statically
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
