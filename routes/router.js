@@ -93,4 +93,33 @@ router.put('/:id', (req, res) => {
   res.status(200).json(posts);
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+//                           DELETE REQUEST                      //
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+
+const NOT_FOUND = -1; // used for clarifying that -1 means the result does not exist
+
+// Method: Delete a post
+router.delete('/:id', (req, res) => {
+  console.log(req.params.id);
+  const id = parseInt(req.params.id);
+  // find the index of the post to be removed
+  const postIndex = posts.findIndex((post) => post.id === id);
+  console.log(postIndex);
+
+  // check if the index even exists before trying to delete
+  if (!postIndex === NOT_FOUND) {
+    return res
+      .status(404)
+      .json({ msg: `A post with the id of ${id} was not found` });
+  }
+
+  // Remove the post
+  posts.splice(postIndex, 1);
+
+  res.status(204).send(); // no will be sent because it is already deleted
+});
+
 export default router;
+
+// purpose of using a constant NOT_FOUND: https://chatgpt.com/share/66eca1ff-0f30-8000-91e4-19e7bb165615
